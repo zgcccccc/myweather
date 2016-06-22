@@ -4,6 +4,9 @@ package com.myweather.app.model;
  * Created by Administrator on 2016/6/20.
  */
 public class Province {
+    public Province() {
+    }
+
     public Province(int id, String provinceName, String provinceCode) {
         this.id = id;
         this.provinceName = provinceName;

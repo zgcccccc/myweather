@@ -4,6 +4,7 @@ package com.myweather.app.model;
  * Created by Administrator on 2016/6/20.
  */
 public class County {
+    public County() {}
     public County(int id, String countyName, String countyCode, int cityId) {
         this.id = id;
         this.countyName = countyName;

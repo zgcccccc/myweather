@@ -16,7 +16,7 @@ import java.util.List;
  * Created by Administrator on 2016/6/20.
  */
 public class MyWeatherDB {
-    private static final String DB_NAME = "my_weather";
+    private static final String DB_NAME = "my_weather.db";
     public static final int VERSION = 1;
     private static MyWeatherDB myWeatherDB;
     private static SQLiteDatabase db;
@@ -32,6 +32,7 @@ public class MyWeatherDB {
         if (myWeatherDB == null) {
             myWeatherDB = new MyWeatherDB(context);
         }
+
         return myWeatherDB;
     }
 
@@ -41,9 +42,9 @@ public class MyWeatherDB {
      * @param 省实体类
      */
     public void saveProvince(Province province) {
-        String sql = String.format("insert into province (province_name,province_code)values(?,?)", new String[]{province.getProvinceName(),
+
+     db.execSQL("insert into province (province_name,province_code)values(?,?)",new String[]{province.getProvinceName(),
                 province.getProvinceCode()});
-        db.execSQL(sql);
     }
 
     /**
@@ -77,9 +78,9 @@ public class MyWeatherDB {
      * @param 城市实体类
      */
     public void saveCity(City city) {
-        String sql = String.format("insert into city (city_name,city_code,province_id) values(?,?,?)",
+
+        db.execSQL("insert into city (city_name,city_code,province_id) values(?,?,?)",
                 new String[]{city.getCityName(), city.getCityCode(), String.valueOf(city.getProvinceId())});
-        db.execSQL(sql);
     }
 
     /**
@@ -92,7 +93,7 @@ public class MyWeatherDB {
         Cursor cursor = db.query("city", null, "province_id=?", new String[]{String.valueOf(provinceId)}, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                int cityId = cursor.getInt(cursor.getColumnIndex("city_id"));
+                int cityId = cursor.getInt(cursor.getColumnIndex("id"));
                 String cityName = cursor.getString(cursor.getColumnIndex("city_name"));
                 String cityCode = cursor.getString(cursor.getColumnIndex("city_code"));
                 int _provinceId = cursor.getInt(cursor.getColumnIndex("province_id"));
@@ -115,10 +116,10 @@ public class MyWeatherDB {
      * @param 县实体类
      */
     public void saveCounty(County county) {
-        String sql = String.format("insert into county (county_name,county_code,city_id)values(?,?,?)", new String[]{
+
+        db.execSQL("insert into county (county_name,county_code,city_id)values(?,?,?)", new String[]{
                 county.getCountyName(), county.getCountyCode(), String.valueOf(county.getCityId())
         });
-        db.execSQL(sql);
     }
 
     /**
