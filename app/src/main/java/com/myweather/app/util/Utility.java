@@ -1,16 +1,25 @@
 package com.myweather.app.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.myweather.app.MyApplication;
 import com.myweather.app.db.MyWeatherDB;
 import com.myweather.app.model.City;
 import com.myweather.app.model.County;
 import com.myweather.app.model.Province;
+import com.myweather.app.model.WeatherInfo;
+
+import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2016/6/21.
  */
 public class Utility {
+    private static final Context context = MyApplication.getContext();
 
     /**
      * 解析并且处理服务器返回的省数据，转为实体类存储到数据库
@@ -79,5 +88,22 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 解析服务器返回的Json字符串数据，并且将解析出来的JSONObject转为字符串穿到SharedPreferences中
+     * @param Json字符串
+     */
+    public static void handleWeatherResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response);
+            JSONObject weatherJson=jsonObject.getJSONObject("weatherinfo");
+            SharedPreferences.Editor editor= PreferenceManager.getDefaultSharedPreferences(context).edit();
+            editor.putString("weatherJson",weatherJson.toString());
+            editor.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

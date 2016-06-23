@@ -1,4 +1,4 @@
-package com.myweather.app.util;
+package com.myweather.app.request;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
